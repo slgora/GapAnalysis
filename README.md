@@ -1,6 +1,6 @@
 # GapAnalysis R package
 
-document updated 2026-05 
+document updated 2026-06 
 
 ## Version 2 Changes 
 Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
@@ -49,88 +49,88 @@ Please note this example is provided at 10 arc minutes resolution for efficient 
 ##Load package
 library(GapAnalysis)
 
-##Obtaining occurrences from example
+# Obtain example occurrences data, SDMs, protected areas, and ecoregions
+##Obtain occurrences
 data(CucurbitaData)
 
-##Obtaining Raster_list
+##Obtain raster list
 data(CucurbitaRasts)
 
-##Obtaining protected areas raster
+##Obtain protected areas raster
 data(ProtectedAreas)
-## ecoregion features
+##Obtain ecoregion features
 data(ecoregions)
 
-# convert the dataset for function
+# convert the dataset for functions
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
 occurrenceData <- CucurbitaData
 protectedAreas <- terra::unwrap(ProtectedAreas)
 ecoregions <- terra::vect(ecoregions)
 
-# generate exsitu conservation summaries
-## sample representativeness score exsitu 
+# Generate exsitu conservation summaries
+## Sample representativeness score exsitu 
 srs_exsitu <- SRSex(taxon = taxon,
-                occurrence_Data  = CucurbitaData)
+                occurrenceData  = CucurbitaData)
 
 ## Generate buffer objects        
 gBuffer <- generateGBuffers(taxon = taxon,
  occurrenceData = occurrenceData,
- bufferDistM = 50000 )
+ bufferDistM = 50000)
 
-## geographic representativeness score  exsitu
+## Geographic representativeness score exsitu
 grs_exsitu <- GRSex(taxon = taxon,
  sdm = sdm,
- gBuffer = gBuffer )
+ gBuffer = gBuffer)
 
 ## Ecological representativeness score exsitu 
 ers_exsitu <- ERSex(taxon = taxon,
  sdm = sdm,
- occurrence_Data = occurrenceData,
+ occurrenceData = occurrenceData,
  gBuffer = gBuffer,
  ecoregions = ecoregions,
- idColumn = "ECO_NAME" )
+ idColumn = "ECO_NAME")
  
-# Running final conservation score exsitu 
+# Final conservation score exsitu 
 fcs_exsitu <- FCSex(taxon = taxon,
  srsex = srs_exsitu,
  grsex = grs_exsitu,
- ersex = ers_exsitu
- )
+ ersex = ers_exsitu)
  
-# generate insitu conservation summaries
-## sample representativeness score insitu
+# Generate insitu conservation summaries
+## Sample representativeness score insitu
 srs_insitu <- SRSin(taxon = taxon,
  sdm = sdm,
  occurrenceData = CucurbitaData,
  protectedAreas = protectedAreas)
  
 ## Geographic representativeness score insitu
- grs_insitu <- GRSin(taxon = taxon,
+grs_insitu <- GRSin(taxon = taxon,
    sdm = sdm,
    protectedAreas = protectedAreas)
   
-## ecological representativeness score insitu 
+## Ecological representativeness score insitu 
 ers_insitu <- ERSin(taxon = taxon,
  sdm = sdm,
  occurrenceData = occurrenceData,
  protectedAreas = protectedAreas,
  ecoregions = ecoregions,
- idColumn = "ECO_NAME" )
+ idColumn = "ECO_NAME")
 
-## final representativeness score insitu 
+## Final representativeness score insitu 
 fcs_insitu <- FCSin(taxon = taxon,
  srsin = srs_insitu,
  grsin = grs_insitu,
- ersin = ers_insitu
- )
-## combine conservation score 
-fsc_combine <- FCSc_mean(taxon = taxon,
+ ersin = ers_insitu)
+
+## Combined conservation score 
+fsc_combined <- FCSc_mean(taxon = taxon,
  fcsin = fcs_insitu,
  fcsex = fcs_exsitu)
  
 ```
 
-For an example with mutliple species see the file `multipleSpecies_vignette.RMD` 
+For an example with multiple species see the file `multipleSpecies_vignette.RMD` 
 
 
 The below sub-sections provide further details on the input data and GapAnalysis steps.

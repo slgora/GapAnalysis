@@ -176,7 +176,7 @@ The recommended workflow is as follows:
 
 **Pre-analysis**
  - `getDatasets` downloads the protected areas and ecoregions datasets from our data repository
- - `checkEcoregions` provides a quality check of the ecoregion file -- optional  
+ - `checkEcoregion` provides a quality check of the ecoregion file -- optional  
  - `checkRasters` provides a quality check of the sdm data -- recommended 
  - `checkProtectedAreas` provides a quality check of the protected areas file -- recommended 
  - `checkOccurrences` provides a quality check of the input species data -- recommended 

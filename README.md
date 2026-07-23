@@ -1,6 +1,6 @@
 # GapAnalysis R package
 
-document updated 2026-07 
+Document updated 2026-07 
 
 ## Version 2 Changes 
 Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
@@ -58,6 +58,7 @@ data(CucurbitaRasts)
 
 ## Obtain protected areas raster
 data(ProtectedAreas)
+
 ## Obtain ecoregion features
 data(ecoregions)
 
@@ -130,7 +131,7 @@ fsc_combined <- FCSc_mean(taxon = taxon,
  
 ```
 
-For an example with multiple species see the file `multipleSpecies_vignette.RMD` 
+For an example with multiple species see the file `multipleSpecies_vignette.RMD`. 
 
 
 The below sub-sections provide further details on the input data and GapAnalysis steps.
@@ -164,11 +165,11 @@ The ecoregion and protected areas datasets are provided through the package via 
 
 These files can be accessed directly at the [Dataverse repository](https://dataverse.harvard.edu/dataverse/GapAnalysis) associated with this package.
 The original datasets can be found here [ecoregions](https://geospatial.tnc.org/datasets/ecoregion-boundaries), 
-[world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
+[world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 
 **_Predicted Habitat_**
 
-The `rast` representing the predicted extent of suitable habitat (species distribution model) is used by multiple functions to represent the maximum potential range of a taxon. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (e.g. packages `sdm`, `wallace`, `dismo` and `maxnet`).
+The `rast` representing the predicted extent of suitable habitat (species distribution model) is used by multiple functions to represent the maximum potential range of a taxon. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (e.g., packages `sdm`, `wallace`, `dismo` and `maxnet`).
 
 
 ### Workflow
@@ -190,7 +191,7 @@ The recommended workflow is as follows:
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
  - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an _in situ_ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
- - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an _in situ_ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
+ - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an _in situ_ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **Summary evaluations**   
@@ -198,7 +199,7 @@ The recommended workflow is as follows:
  
 **Internal functions**
  - `generateCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `generateEcoSelection` helper funtion utilized by both the ERSex and ERSin functions 
+ - `generateEcoSelection` helper function utilized by both the ERSex and ERSin functions 
  - `generateGBuffers` produces buffer vect object of the G point features 
  
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.

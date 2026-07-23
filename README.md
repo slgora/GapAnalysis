@@ -162,7 +162,7 @@ More information and examples of how to make the distinction between “H” and
 </a>
 The ecoregion and protected areas datasets are provided through the package via the `getDatasets()` function. The files will be downloaded and stored in the user's data directory (see `?tools::R_user_dir`).
 
-These files can be accessed directly at the [Dataverse repository](https://doi.org/10.7910/DVN/B8YOQL) associated with this package.
+These files can be accessed directly at the [Dataverse repository](https://dataverse.harvard.edu/dataverse/GapAnalysis) associated with this package.
 The original datasets can be found here [ecoregions](https://geospatial.tnc.org/datasets/ecoregion-boundaries), 
 [world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 

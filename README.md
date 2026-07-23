@@ -19,7 +19,7 @@ This library consists of 17 functions within 3 families: data checks and gatheri
 The _ex situ_ and _in situ_ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results.
 
 ## Installation
-GapAnalysis can be installed as follows
+GapAnalysis can be installed as follows:
 ```r
 # CRAN
 install.packages("GapAnalysis")
@@ -107,16 +107,16 @@ srs_insitu <- SRSin(taxon = taxon,
  
 ## Geographic representativeness score insitu
 grs_insitu <- GRSin(taxon = taxon,
-                     sdm = sdm,
-                     protectedAreas = protectedAreas)
+                    sdm = sdm,
+                    protectedAreas = protectedAreas)
   
 ## Ecological representativeness score insitu 
 ers_insitu <- ERSin(taxon = taxon,
-                   sdm = sdm,
-                   occurrenceData = occurrenceData,
-                   protectedAreas = protectedAreas,
-                   ecoregions = ecoregions,
-                   idColumn = "ECO_NAME")
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME")
 
 ## Final representativeness score insitu 
 fcs_insitu <- FCSin(taxon = taxon,

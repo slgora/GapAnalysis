@@ -72,62 +72,62 @@ ecoregions <- terra::vect(ecoregions)
 ### Generate exsitu conservation summaries
 ## Sampling representativeness score exsitu 
 srs_exsitu <- SRSex(taxon = taxon,
-                occurrenceData  = CucurbitaData)
+                    occurrenceData = CucurbitaData)
 
-## Generate buffer objects        
+## Generate buffer objects
 gBuffer <- generateGBuffers(taxon = taxon,
- occurrenceData = occurrenceData,
- bufferDistM = 50000)
+                            occurrenceData = occurrenceData,
+                            bufferDistM = 50000)
 
 ## Geographic representativeness score exsitu
 grs_exsitu <- GRSex(taxon = taxon,
- sdm = sdm,
- gBuffer = gBuffer)
+                    sdm = sdm,
+                    gBuffer = gBuffer)
 
 ## Ecological representativeness score exsitu 
 ers_exsitu <- ERSex(taxon = taxon,
- sdm = sdm,
- occurrenceData = occurrenceData,
- gBuffer = gBuffer,
- ecoregions = ecoregions,
- idColumn = "ECO_NAME")
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    gBuffer = gBuffer,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME")
  
 ## Final conservation score exsitu 
 fcs_exsitu <- FCSex(taxon = taxon,
- srsex = srs_exsitu,
- grsex = grs_exsitu,
- ersex = ers_exsitu)
+                    srsex = srs_exsitu,
+                    grsex = grs_exsitu,
+                    ersex = ers_exsitu)
  
 # Generate insitu conservation summaries
 ## Sample representativeness score insitu
 srs_insitu <- SRSin(taxon = taxon,
- sdm = sdm,
- occurrenceData = CucurbitaData,
- protectedAreas = protectedAreas)
+                    sdm = sdm,
+                    occurrenceData = CucurbitaData,
+                    protectedAreas = protectedAreas)
  
 ## Geographic representativeness score insitu
 grs_insitu <- GRSin(taxon = taxon,
-   sdm = sdm,
-   protectedAreas = protectedAreas)
+                     sdm = sdm,
+                     protectedAreas = protectedAreas)
   
 ## Ecological representativeness score insitu 
 ers_insitu <- ERSin(taxon = taxon,
- sdm = sdm,
- occurrenceData = occurrenceData,
- protectedAreas = protectedAreas,
- ecoregions = ecoregions,
- idColumn = "ECO_NAME")
+                   sdm = sdm,
+                   occurrenceData = occurrenceData,
+                   protectedAreas = protectedAreas,
+                   ecoregions = ecoregions,
+                   idColumn = "ECO_NAME")
 
 ## Final representativeness score insitu 
 fcs_insitu <- FCSin(taxon = taxon,
- srsin = srs_insitu,
- grsin = grs_insitu,
- ersin = ers_insitu)
+                    srsin = srs_insitu,
+                    grsin = grs_insitu,
+                    ersin = ers_insitu)
 
 ## Combined conservation score 
 fsc_combined <- FCSc_mean(taxon = taxon,
- fcsin = fcs_insitu,
- fcsex = fcs_exsitu)
+                          fcsin = fcs_insitu,
+                          fcsex = fcs_exsitu)
  
 ```
 
@@ -158,10 +158,9 @@ The major sources for "G" occurrence data that the authors have used in GapAnaly
 
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](https://doi.org/10.1111/DDI.13008).
 
-<a name="ecolink">
-<b><i>Ecoregions and Protected Area </b></i>
-</a>
-The ecoregion and protected areas datasets are provided through the package via the `getDatasets()` function. The files will be downloaded and stored in the user's data directory (see `?tools::R_user_dir`).
+**_Ecoregions and Protected Areas_**
+
+The ecoregions and protected areas datasets are provided through the package via the `getDatasets()` function. The files will be downloaded and stored in the user's data directory (see `?tools::R_user_dir`).
 
 These files can be accessed directly at the [Dataverse repository](https://dataverse.harvard.edu/dataverse/GapAnalysis) associated with this package.
 The original datasets can be found here [ecoregions](https://geospatial.tnc.org/datasets/ecoregion-boundaries), 
@@ -182,13 +181,13 @@ The recommended workflow is as follows:
  - `checkProtectedAreas` provides a quality check of the protected areas file -- recommended 
  - `checkOccurrences` provides a quality check of the input species data -- recommended 
 
-**Ex-situ Analysis**
+**Ex-situ analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
  - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an _ex situ_ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for _ex situ_ conservation
  - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an _ex situ_ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
-**In-situ Analysis**
+**In-situ analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
  - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an _in situ_ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
  - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an _in situ_ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas

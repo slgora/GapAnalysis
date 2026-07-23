@@ -1,29 +1,29 @@
 # GapAnalysis R package
 
-document updated 2026-06 
+document updated 2026-07 
 
 ## Version 2 Changes 
 Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
 [terra](https://rspatial.github.io/terra/index.html) spatial data libraries. Also, additional map visualizations are provided
-as objects with the outputs from the gap analysis metric functions (ex. ERSex, GRSin). 
+as objects with the outputs from the gap analysis metric functions (e.g., ERSex, GRSin). 
 More additions are expected in the future based on end user requests and feedback.
 
 
 
 ## Description
-The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in Carver et al. (2021). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b; 2020) describe the main steps toward the current methodology. 
+The GapAnalysis R package evaluates the _ex situ_ and _in situ_ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in Carver et al. (2021). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b; 2020) describe the main steps toward the current methodology. 
 
 The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `rast` object of the predicted habitat (species distribution model) for each assessed taxon.
 
-This library consists of 17 functions within 3 families: data checks and gathering, ex situ conservation gap analysis and in situ conservation gap analysis. In short, the data checks and gather process gives the option to download protected areas and ecoregion datasets or enables users to run quality checks on their own data.
-The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results.
+This library consists of 17 functions within 3 families: data checks and gathering, _ex situ_ conservation gap analysis and _in situ_ conservation gap analysis. In short, the data checks and gather process gives the option to download protected areas and ecoregion datasets or enables users to run quality checks on their own data.
+The _ex situ_ and _in situ_ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results.
 
 ## Installation
 GapAnalysis can be installed as follows
 ```r
-#CRAN
+# CRAN
 install.packages("GapAnalysis")
-#Alternative: GitHub
+# Alternative: GitHub
 library(devtools)
 remotes::install_github("CIAT-DAPA/GapAnalysis")
 ```
@@ -46,30 +46,30 @@ Please note this example is provided at 10 arc minutes resolution for efficient 
 
 
 ```r
-##Load package
+## Load package
 library(GapAnalysis)
 
-# Obtain example occurrences data, SDMs, protected areas, and ecoregions
-##Obtain occurrences
+### Obtain example occurrences data, SDMs, protected areas, and ecoregions
+## Obtain occurrences
 data(CucurbitaData)
 
-##Obtain raster list
+## Obtain raster list
 data(CucurbitaRasts)
 
-##Obtain protected areas raster
+## Obtain protected areas raster
 data(ProtectedAreas)
-##Obtain ecoregion features
+## Obtain ecoregion features
 data(ecoregions)
 
-# convert the dataset for functions
+## Convert the dataset for functions
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
 occurrenceData <- CucurbitaData
 protectedAreas <- terra::unwrap(ProtectedAreas)
 ecoregions <- terra::vect(ecoregions)
 
-# Generate exsitu conservation summaries
-## Sample representativeness score exsitu 
+### Generate exsitu conservation summaries
+## Sampling representativeness score exsitu 
 srs_exsitu <- SRSex(taxon = taxon,
                 occurrenceData  = CucurbitaData)
 
@@ -91,7 +91,7 @@ ers_exsitu <- ERSex(taxon = taxon,
  ecoregions = ecoregions,
  idColumn = "ECO_NAME")
  
-# Final conservation score exsitu 
+## Final conservation score exsitu 
 fcs_exsitu <- FCSex(taxon = taxon,
  srsex = srs_exsitu,
  grsex = grs_exsitu,
@@ -145,7 +145,7 @@ species | latitude | longitude | type
 Cucurbita_cordata | 28.9457 | -113.563 | G
 Cucurbita_digitata |  | | H
 
-**species:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat `raster` as well.
+**species:** This value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat `raster` as well.
 
 **latitude** and **longitude** must be in decimal degrees, preferably with the highest accuracy possible.
 
@@ -153,7 +153,7 @@ Cucurbita_digitata |  | | H
 
 Digital repositories such as GBIF, EDDmaps, and IDIGBIO contain observed locations of a taxon considered “H” type occurrences in GapAnalysis. From our experience there can be duplication within and between such databases and care should be taken to reduce duplication where possible.
 
-The major sources for G occurrence data that the authors have used in GapAnalysis include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), [FAO WIEWS](https://www.fao.org/wiews/en/), [PlantSearch](https://tools.bgci.org/plant_search.php), and [GBIF](https://www.gbif.org/) (records designated as 'living specimen'). Generally, data from these sources would be considered a G type if it is still an active and living accession. Duplication between these sources may exist.
+The major sources for "G" occurrence data that the authors have used in GapAnalysis include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), [FAO WIEWS](https://www.fao.org/wiews/en/), [PlantSearch](https://tools.bgci.org/plant_search.php), and [GBIF](https://www.gbif.org/) (records designated as 'living specimen'). Generally, data from these sources would be considered a "G" type if it is still an active and living accession. Duplication between these sources may exist.
 
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](https://doi.org/10.1111/DDI.13008).
 
@@ -183,18 +183,18 @@ The recommended workflow is as follows:
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
- - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an ex situ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation
- - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an ex situ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
+ - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an _ex situ_ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for _ex situ_ conservation
+ - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an _ex situ_ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
- - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an in situ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
- - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
+ - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an _in situ_ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
+ - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an _in situ_ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **Summary evaluations**   
- - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on final conservation scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
+ - `FCSc_mean` computes the mean as well as minimum and maximum of the ex situ and in situ Final Conservation Scores. It also assigns taxa to priority categories based on final conservation scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
  
 **Internal functions**
  - `generateCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
@@ -204,13 +204,13 @@ The recommended workflow is as follows:
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
 ## Authors
-Main: Daniel Carver, Chrystian C. Sosa, Sarah Gora,  Colin K. Khoury, and Julian Ramirez-Villegas
+Main: Daniel Carver, Chrystian C. Sosa, Sarah Gora, Colin K. Khoury, and Julian Ramirez-Villegas
 
 Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
 ## References
 
-Carver D, Sosa CC, Khoury CK, Achicanoy HA, Diaz MV, Sotelo S, Castañeda-Álvarez NP, and Ramírez-Villegas JR (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information. Ecography. doi: 10.1111/ecog.05430. (https://doi.org/10.1111/ecog.05430)
+Carver D, Sosa CC, Khoury CK, Achicanoy HA, Diaz MV, Sotelo S, Castañeda-Álvarez NP, and Ramirez-Villegas J (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information. Ecography. doi: [10.1111/ecog.05430](https://doi.org/10.1111/ecog.05430).
 
 Castañeda-Álvarez NP, Khoury CK, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramirez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: [10.1038/nplants.2016.22](https://www.nature.com/articles/nplants201622)
 
@@ -218,11 +218,11 @@ Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramirez-Villegas J, 
 
 Khoury CK, Carver D, Barchenger DW, Barboza G, van Zonneweld M, Jarret R, Bohs L, Kantar MB, Uchanski M, Mercer K, Nabhan GP, Bosland PW, and Greene SL (2019b) Modeled distributions and conservation status of the wild relatives of chile peppers (Capsicum L). Diversity and Distributions 26(2): 209-225. doi: [10.1111/DDI.13008](https://doi.org/10.1111/DDI.13008).
 
-Khoury CK, Carver D, Greene SL, Williams KA, Achicanoy HA, Schori M, León B, Wiersema JH, and Frances A (2020) Crop wild relatives of the United States require urgent conservation action. Proc Natl Acad Sci USA 117(52): 33351-33357. doi: 10.1073/pnas.2007029117. https://doi.org/10.1073/pnas.2007029117
+Khoury CK, Carver D, Greene SL, Williams KA, Achicanoy HA, Schori M, León B, Wiersema JH, and Frances A (2020) Crop wild relatives of the United States require urgent conservation action. Proc Natl Acad Sci USA 117(52): 33351-33357. doi: [10.1073/pnas.2007029117](https://doi.org/10.1073/pnas.2007029117).
 
-Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019c) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet 2(3): 269-283. doi: 10.1002/ppp3.10085. https://doi.org/10.1002/ppp3.10085
+Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019c) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet 2(3): 269-283. doi: [10.1002/ppp3.10085](https://doi.org/10.1002/ppp3.100850).
 
-Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](https://doi.org/10.1371/journal.pone.0013497)
+Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](https://doi.org/10.1371/journal.pone.0013497).
 
 ## License
 GNU GENERAL PUBLIC LICENSE Version 3
